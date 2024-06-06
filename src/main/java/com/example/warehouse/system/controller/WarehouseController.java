@@ -2,6 +2,7 @@ package com.example.warehouse.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,10 +23,11 @@ public class WarehouseController {
 	//private WarehouseService warehouseService;
 	
 	
-	@PostMapping("/warehouses")
-	public String saveWarehouse(@RequestBody AdminRequest adminRequest)
+	//@PostMapping("/warehouses")
+	@GetMapping("/warehouses")
+	public String saveWarehouse()
 	{
-		return "Warehouse Created";
+		return "Warehouse Founded";
 	}
 
 }
