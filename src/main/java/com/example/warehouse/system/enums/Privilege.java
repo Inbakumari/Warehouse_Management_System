@@ -1,0 +1,24 @@
+package com.example.warehouse.system.enums;
+
+public enum Privilege {
+	
+	CREATE_ADMIN,
+	CREATE_WAREHOUSE,
+	CREATE_ADDRESS,
+	CREATE_STORAGE,
+	
+	READ,
+	
+	UPDATE_ADMIN,
+	UPDATE_WAREHOUSE,
+	UPDATE_ADDRESS,
+	UPDATE_STORAGE,
+	
+	
+	DEL_ADMIN,
+	DEL_WAREHOUSE,
+	DEL_ADDRESS,
+	DEL_STORAGE;
+	
+
+}
