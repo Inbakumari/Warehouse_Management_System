@@ -1,5 +1,7 @@
 package com.example.warehouse.system.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 
@@ -13,5 +15,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer> {
 	
 
 	public boolean existsByAdminType(AdminType adminType);
+
+	public Optional<Admin> findByEmail(String username);
 	
 }
