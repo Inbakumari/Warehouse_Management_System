@@ -49,4 +49,13 @@ public class AdminServiceImpl implements AdminService {
 
 
 	}
+
+
+
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> createAdmin(AdminRequest adminRequest) {
+		
+		return null;
+	}
+	
 }
