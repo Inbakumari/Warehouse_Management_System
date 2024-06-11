@@ -1,17 +1,24 @@
 package com.example.warehouse.system.requestdto;
 
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@Getter
 @Setter
-public class WarehouseRequest {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class WareHouseRequest {
+
+	@NotNull(message="username cannot be null")
+	@NotBlank(message="username cannot be blank")
+	private String name; 
+
 	
-	
-	@Pattern(regexp="^[a-zA-Z]+$", message="The username should contain only alphabets."
-			 +" should not contains any numeric character, special character")
-	private String name;
 
 }
