@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-
-public class WarehouseNotFoundByIdException extends RuntimeException {
+public class WarehouseNotFoundByNameException extends RuntimeException {
+	
 	private String message;
+
 }

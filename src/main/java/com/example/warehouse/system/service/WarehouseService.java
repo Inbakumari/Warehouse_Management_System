@@ -9,6 +9,8 @@ import com.example.warehouse.system.utility.ResponseStructure;
 public interface WarehouseService {
 
 	public ResponseEntity<ResponseStructure<WarehouseResponse>> createWarehouse(WarehouseRequest wareHouseRequest);
+
+	public ResponseEntity<ResponseStructure<WarehouseResponse>> updateWarehouse(WarehouseRequest warehouseRequest, int warehouseId);
 		
 	
 
