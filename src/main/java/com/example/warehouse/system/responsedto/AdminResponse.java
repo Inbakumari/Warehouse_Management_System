@@ -1,10 +1,7 @@
 package com.example.warehouse.system.responsedto;
 
 
-import java.util.List;
-
 import com.example.warehouse.system.enums.AdminType;
-import com.example.warehouse.system.enums.Privilege;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

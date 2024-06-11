@@ -1,11 +1,5 @@
 package com.example.warehouse.system.requestdto;
 
-import java.util.List;
-
-import com.example.warehouse.system.enums.AdminType;
-import com.example.warehouse.system.enums.Privilege;
-
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -33,11 +27,8 @@ public class AdminRequest {
 	
 	private String email;
 	
-	@Pattern(regexp = "^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.[@#$%^&+=])(?=\\S+$).{8,}$", 
+	@Pattern(regexp = "^(?=.*[0-9])(?=.[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", 
 			message = "Password must contain at least one letter, one number, one special character, and be at least 8 characters long")
 	private String password ;
-	
-	private AdminType adminType;
-	
 	
 }

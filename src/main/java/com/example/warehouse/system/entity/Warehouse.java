@@ -16,13 +16,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//@Entity  //it indicates table
-//@Setter //will implicitly crete setter() will be visible in outline
-//@Getter	//will implicitly crete getter() will be visible in outline
-//@NoArgsConstructor //will implicitly crete noargsconstrutor() will be visible in outline
-//@AllArgsConstructor //will implicitly crete allargsconstrutor() will be visible in outline
 @Builder
-public class WareHouse {
+public class Warehouse {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)  //sql cretes autogeneratn strategy,no need of 'sequence table'
