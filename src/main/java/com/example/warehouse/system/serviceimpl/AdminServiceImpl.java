@@ -83,7 +83,6 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
-
 	@Override
 	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdmin(AdminRequest adminRequest, int adminId) {
 		

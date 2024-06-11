@@ -12,32 +12,29 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Getter
-@Setter
-
-
-
+@Entity  
+@Setter 
+@Getter	
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
 public class Admin {
-	
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  //sql cretes autogeneratn strategy,no need of 'sequence table'
 	private int adminId;
 	private String name;
 	private String email;
-	private String password;
-	
-	//enumeration type
+	private String password ;
 	
 	@Enumerated(EnumType.STRING)
-	private AdminType adminType;
-	
-	
-	
-	
+    AdminType adminType;
 
 }

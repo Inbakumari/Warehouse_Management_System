@@ -8,15 +8,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class WarehouseResponse {
-	
-	
-	private int warehouseId;
-	private String warehouseName;
-	
-	
+public class WareHouseResponse {
 
+	private int wareHouseId;
+	private String name; 
+	private int totalCapacity;
 }

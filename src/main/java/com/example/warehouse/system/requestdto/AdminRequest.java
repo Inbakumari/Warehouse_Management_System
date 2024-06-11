@@ -36,8 +36,15 @@ public class AdminRequest {
 	@Pattern(regexp = "^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.[@#$%^&+=])(?=\\S+$).{8,}$", 
 			message = "Password must contain at least one letter, one number, one special character, and be at least 8 characters long")
 	private String password ;
+<<<<<<< HEAD
 	
 	
 	
 	
+=======
+	
+	private AdminType adminType;
+	
+	
+>>>>>>> 62a9606d3f3218591ed5962733402d8c0f30736e
 }
