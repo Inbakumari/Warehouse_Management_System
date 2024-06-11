@@ -49,6 +49,9 @@ public class AdminController {
 	    return adminService.updateAdminBySuperAdmin(adminRequest,adminId);
 	}
 	
-	
+	@GetMapping("/admins/{adminId}")
+	public ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(@PathVariable int adminId) {
+	    return adminService.findAdmin(adminId);
+	}
 
 }
