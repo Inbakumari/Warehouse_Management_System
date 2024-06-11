@@ -8,24 +8,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.warehouse.system.entity.WareHouse;
-import com.example.warehouse.system.responsedto.WareHouseResponse;
-import com.example.warehouse.system.service.WareHouseService;
+import com.example.warehouse.system.requestdto.WarehouseRequest;
+import com.example.warehouse.system.responsedto.WarehouseResponse;
+import com.example.warehouse.system.service.WarehouseService;
 import com.example.warehouse.system.utility.ResponseStructure;
 
 
 
 @RestController
 @RequestMapping("/api/v1")
-public class WareHouseController {
+public class WarehouseController {
 
 	@Autowired
-	private WareHouseService wareHouseService;
+	private WarehouseService wareHouseService;
 
 
 	@PostMapping("/warehouses")
 	@PreAuthorize("hasAuthority('CREATE_WAREHOUSE')")  //to allow only those who have the reqrd authority will be allowed to access the resources
-	public ResponseEntity<ResponseStructure<WareHouseResponse>>	createWareHouse(@RequestBody WareHouse wareHouseRequest)
+	public ResponseEntity<ResponseStructure<WarehouseResponse>>	createWareHouse(@RequestBody WarehouseRequest wareHouseRequest)
 	{
 		return  wareHouseService.createWarehouse(wareHouseRequest);
 	}

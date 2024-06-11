@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class WareHouseResponse {
+public class WarehouseResponse {
 
 	private int wareHouseId;
 	private String name; 

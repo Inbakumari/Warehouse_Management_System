@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class WareHouseRequest {
+public class WarehouseRequest {
 
 	@NotNull(message="username cannot be null")
 	@NotBlank(message="username cannot be blank")

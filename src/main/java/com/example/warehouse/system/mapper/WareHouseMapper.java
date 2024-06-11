@@ -2,20 +2,21 @@ package com.example.warehouse.system.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.example.warehouse.system.entity.WareHouse;
-import com.example.warehouse.system.responsedto.WareHouseResponse;
+import com.example.warehouse.system.entity.Warehouse;
+import com.example.warehouse.system.requestdto.WarehouseRequest;
+import com.example.warehouse.system.responsedto.WarehouseResponse;
 
 
 @Component
 public class WareHouseMapper {
 
-	public WareHouse mapToWareHouse(WareHouse wareHouseRequest, WareHouse wareHouse) {
+	public Warehouse mapToWareHouse(WarehouseRequest wareHouseRequest, Warehouse wareHouse) {
 		wareHouse.setName(wareHouseRequest.getName());
 		return wareHouse;			
 	}	
 		
-		public WareHouseResponse mapToWareHouseResponse(WareHouse wareHouse) {
-			return WareHouseResponse.builder()
+		public WarehouseResponse mapToWareHouseResponse(Warehouse wareHouse) {
+			return WarehouseResponse.builder()
 					.wareHouseId(wareHouse.getWareHouseId())
 					.name(wareHouse.getName())
 					.totalCapacity(0)
