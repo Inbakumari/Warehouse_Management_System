@@ -53,5 +53,11 @@ public class AdminController {
 	public ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(@PathVariable int adminId) {
 	    return adminService.findAdmin(adminId);
 	}
+	
+
+	@GetMapping("/admins")
+	public ResponseEntity<ResponseStructure<List<AdminResponse>>> findAdmins() {
+	    return adminService.findAdmins();
+	}
 
 }
