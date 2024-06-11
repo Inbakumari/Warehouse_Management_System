@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.warehouse.system.entity.Admin;
-import com.example.warehouse.system.entity.Warehouse;
+import com.example.warehouse.system.entity.WareHouse;
 import com.example.warehouse.system.enums.AdminType;
 import com.example.warehouse.system.enums.Privilege;
 import com.example.warehouse.system.exception.IllegalOperationException;
@@ -28,6 +28,7 @@ import com.example.warehouse.system.utility.ResponseStructure;
 @Service
 public class AdminServiceImpl implements AdminService {
 
+
 	@Autowired
 	private AdminRepository adminRepository;
 
@@ -35,51 +36,50 @@ public class AdminServiceImpl implements AdminService {
 	private AdminMapper adminMapper;
 
 	@Autowired
-
 	private WareHouseRepository wareHouseRepository;
-
-
 
 	@Override
 	public ResponseEntity<ResponseStructure<AdminResponse>> createSuperAdmin(AdminRequest adminRequest) {
-		if(adminRepository.existsByAdminType(AdminType.SUPER_ADMIN))
-			throw new IllegalOperationException("Illegal Operations occured in Super admin");
-		Admin admin=adminMapper.mapToAdmin(adminRequest, new Admin());
-		admin.setAdminType(AdminType.SUPER_ADMIN);
+		if( adminRepository.existsByAdminType(AdminType.SUPER_ADMIN))
+		{
+			
 
-		admin=adminRepository.save(admin);
-		return ResponseEntity
-				.status(HttpStatus.CREATED)
-				.body(new ResponseStructure<AdminResponse>()
-						.setStatusCode(HttpStatus.CREATED.value())
-						.setMessage("Created Successfully")
-						.setData(adminMapper.mapToAdminResponse(admin)));
-
+			throw new IllegalOperationException("The SuperAdmin Already Exists,cannot add another SuperAdmin");
+		}
+		else {
+			Admin admin = adminRepository.save(adminMapper.mapToAdmin(adminRequest, new Admin()));					
+			admin.setAdminType(AdminType.SUPER_ADMIN);
+			admin=adminRepository.save(admin);
+			return	ResponseEntity.status(HttpStatus.CREATED)
+					.body(new ResponseStructure<AdminResponse>()
+							.setStatusCode(HttpStatus.CREATED.value())
+							.setMessage("Super Admin Created")
+							.setData(adminMapper.mapToAdminResponse(admin)));
+		}
 
 	}
 
-	@Override
-	public ResponseEntity<ResponseStructure<AdminResponse>> createAdmin(AdminRequest adminRequest,int warehouseId) {
+
+	public ResponseEntity<ResponseStructure<AdminResponse>> createAdmin(AdminRequest adminRequest,int wareHouseId) {
 		
-		Warehouse warehouse = wareHouseRepository.findById(warehouseId)
-				.orElseThrow(() -> new WarehouseNotFoundByIdException("Warehouse not found"));
-		Admin admin=adminMapper.mapToAdmin(adminRequest, new Admin());
-		admin.setAdminType(AdminType.ADMIN);
-		admin=adminRepository.save(admin);
-		wareHouseRepository.save(warehouse);
-
-		return ResponseEntity
-				.status(HttpStatus.CREATED)
-				.body(new ResponseStructure<AdminResponse>()
-						.setStatusCode(HttpStatus.CREATED.value())
-						.setMessage("Admin Created  Successfully")
-						.setData(adminMapper.mapToAdminResponse(admin)));
+		return	wareHouseRepository.findById(wareHouseId)
+				.map(warehouse->{
 
 
+					Admin admin = adminMapper.mapToAdmin(adminRequest, new Admin());
+					admin.setAdminType(AdminType.ADMIN);
+					admin=adminRepository.save(admin);
 
+					warehouse.setAdmin(admin);
+					wareHouseRepository.save(warehouse);
+
+					return	ResponseEntity.status(HttpStatus.CREATED)
+							.body(new ResponseStructure<AdminResponse>()
+									.setStatusCode(HttpStatus.CREATED.value())
+									.setMessage("Admin Created")
+									.setData(adminMapper.mapToAdminResponse(admin)));	
+				}).orElseThrow(()->new WarehouseNotFoundByIdException("WareHouse of this id not found")	 );
 
 
 	}
-
 }
-
