@@ -1,5 +1,7 @@
 package com.example.warehouse.system.serviceimpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.warehouse.system.entity.Admin;
 import com.example.warehouse.system.enums.AdminType;
 import com.example.warehouse.system.exception.AdminNotFoundByEmailException;
+import com.example.warehouse.system.exception.AdminNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByIdException;
 import com.example.warehouse.system.mapper.AdminMapper;
@@ -18,6 +21,8 @@ import com.example.warehouse.system.requestdto.AdminRequest;
 import com.example.warehouse.system.responsedto.AdminResponse;
 import com.example.warehouse.system.service.AdminService;
 import com.example.warehouse.system.utility.ResponseStructure;
+
+import jakarta.validation.Valid;
 
 
 @Service
@@ -37,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
 	public ResponseEntity<ResponseStructure<AdminResponse>> createSuperAdmin(AdminRequest adminRequest) {
 		if( adminRepository.existsByAdminType(AdminType.SUPER_ADMIN))
 		{
-			
+
 
 			throw new IllegalOperationException("The SuperAdmin Already Exists,cannot add another SuperAdmin");
 		}
@@ -56,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
 
 
 	public ResponseEntity<ResponseStructure<AdminResponse>> createAdmin(AdminRequest adminRequest,int wareHouseId) {
-		
+
 		return	wareHouseRepository.findById(wareHouseId)
 				.map(warehouse->{
 
@@ -80,19 +85,40 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdmin(AdminRequest adminRequest) {
-		
+
 		String email=SecurityContextHolder.getContext().getAuthentication().getName();
 		return adminRepository.findByEmail(email).map(admin -> {
 			admin = adminMapper.mapToAdmin(adminRequest, admin);
 			admin = adminRepository.save(admin);
-			
+
 			return	ResponseEntity.status(HttpStatus.OK)
 					.body(new ResponseStructure<AdminResponse>()
 							.setStatusCode(HttpStatus.OK.value())
 							.setMessage("Admin Updated Successfully")
 							.setData(adminMapper.mapToAdminResponse(admin)));	
 		}).orElseThrow(()->new AdminNotFoundByEmailException("Admin Not Found"));
-			
-		
+
+
 	}
+
+
+
+
+		@Override
+		public ResponseEntity<ResponseStructure<AdminResponse>> updateAdminBySuperAdmin(AdminRequest adminRequest,int adminId) {
+			
+			
+			return adminRepository.findById(adminId).map(admin -> {
+				
+				admin = adminRepository.save(adminMapper.mapToAdmin(adminRequest, admin));
+				
+				return	ResponseEntity.status(HttpStatus.OK)
+						.body(new ResponseStructure<AdminResponse>()
+								.setStatusCode(HttpStatus.OK.value())
+								.setMessage("Admin Updated By Super Admin")
+								.setData(adminMapper.mapToAdminResponse(admin)));	
+			}).orElseThrow(()->new AdminNotFoundByIdException("Admin Not Found"));
+				
+		}
+
 }
