@@ -16,6 +16,7 @@ import com.example.warehouse.system.exception.AdminNotFoundByEmailException;
 import com.example.warehouse.system.exception.AdminNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByIdException;
+import com.example.warehouse.system.exception.WarehouseNotFoundByNameException;
 
 @RestControllerAdvice
 public class ApplicationHandler {
@@ -86,6 +87,17 @@ public class ApplicationHandler {
 	{
 		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Admin Not Found");
 	}
+	
+	
+	@ExceptionHandler
+
+	public ResponseEntity<ErrorStructure> handleWarehouseNotFoundByName(WarehouseNotFoundByNameException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Warehouse Not Found");
+	}
+	
+	
+	
 
 
 
