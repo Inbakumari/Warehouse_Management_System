@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.warehouse.system.repository.WareHouseRepository;
 import com.example.warehouse.system.requestdto.WarehouseRequest;
+import com.example.warehouse.system.responsedto.AdminResponse;
 import com.example.warehouse.system.responsedto.WarehouseResponse;
 import com.example.warehouse.system.service.WarehouseService;
 import com.example.warehouse.system.utility.ResponseStructure;
@@ -28,18 +29,29 @@ public class WarehouseController {
 
 
 	@PostMapping("/warehouses")
-	@PreAuthorize("hasAuthority('CREATE_WAREHOUSE')")  //to allow only those who have the reqrd authority will be allowed to access the resources
+	@PreAuthorize("hasAuthority('CREATE_WAREHOUSE')") 
 	public ResponseEntity<ResponseStructure<WarehouseResponse>>	createWareHouse(@RequestBody WarehouseRequest wareHouseRequest)
 	{
 		return  wareHouseService.createWarehouse(wareHouseRequest);
 	}
-	
+
 	@PutMapping("/warehouses/{warehouseId}")
 	public ResponseEntity<ResponseStructure<WarehouseResponse>> updateWarehouse(@RequestBody WarehouseRequest warehouseRequest, @PathVariable int warehouseId )
 	{
 		return wareHouseService.updateWarehouse(warehouseRequest,warehouseId);
 	}
-	
 
-	
+	@GetMapping("/warehouses/{warehouseId}")
+
+	public ResponseEntity<ResponseStructure<WarehouseResponse>> findWarehouse(@PathVariable int warehouseId) {
+		return wareHouseService.findWarehouse(warehouseId);
+
+
+	}
+
+
+
+
+
+
 }
