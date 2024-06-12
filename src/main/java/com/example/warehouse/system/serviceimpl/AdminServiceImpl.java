@@ -104,54 +104,54 @@ public class AdminServiceImpl implements AdminService {
 
 
 
-		@Override
-		public ResponseEntity<ResponseStructure<AdminResponse>> updateAdminBySuperAdmin(AdminRequest adminRequest,int adminId) {
-			
-			
-			return adminRepository.findById(adminId).map(admin -> {
-				
-				admin = adminRepository.save(adminMapper.mapToAdmin(adminRequest, admin));
-				
-				return	ResponseEntity.status(HttpStatus.OK)
-						.body(new ResponseStructure<AdminResponse>()
-								.setStatusCode(HttpStatus.OK.value())
-								.setMessage("Admin Updated By Super Admin")
-								.setData(adminMapper.mapToAdminResponse(admin)));	
-			}).orElseThrow(()->new AdminNotFoundByIdException("Admin Not Found"));
-				
-		}
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdminBySuperAdmin(AdminRequest adminRequest,int adminId) {
 
 
-		@Override
-		public ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(int adminId) {
-		    return adminRepository.findById(adminId)
-		            .map(admin -> {
-		             
+		return adminRepository.findById(adminId).map(admin -> {
 
-		            	AdminResponse adminResponse = adminMapper.mapToAdminResponse(admin);
+			admin = adminRepository.save(adminMapper.mapToAdmin(adminRequest, admin));
 
-		                return ResponseEntity
-		                		.status(HttpStatus.FOUND)
-		                		.body(new ResponseStructure<AdminResponse>()
-		                        .setData(adminResponse)
-		                        .setMessage("Admin Found")
-		                        .setStatusCode(HttpStatus.FOUND.value()));
-		            })
-		            .orElseThrow(() -> new AdminNotFoundByIdException("Failed to Find"));
-		}
-		
-		@Override
-		public ResponseEntity<ResponseStructure<List<AdminResponse>>> findAdmins() {
-			List<AdminResponse> adminResponse=adminRepository.findAll().stream().map(admin -> adminMapper
-					.mapToAdminResponse(admin))
-					.toList();
-			return ResponseEntity.status(HttpStatus.FOUND)
-					.body(new ResponseStructure<List<AdminResponse>>()
-							.setData(adminResponse)
-							.setMessage("Found All Admins successfully")
-							.setStatusCode(HttpStatus.FOUND.value()));
+			return	ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseStructure<AdminResponse>()
+							.setStatusCode(HttpStatus.OK.value())
+							.setMessage("Admin Updated By Super Admin")
+							.setData(adminMapper.mapToAdminResponse(admin)));	
+		}).orElseThrow(()->new AdminNotFoundByIdException("Admin Not Found"));
+
+	}
 
 
-		}
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(int adminId) {
+		return adminRepository.findById(adminId)
+				.map(admin -> {
+
+
+					AdminResponse adminResponse = adminMapper.mapToAdminResponse(admin);
+
+					return ResponseEntity
+							.status(HttpStatus.FOUND)
+							.body(new ResponseStructure<AdminResponse>()
+									.setData(adminResponse)
+									.setMessage("Admin Found")
+									.setStatusCode(HttpStatus.FOUND.value()));
+				})
+				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to Find"));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<List<AdminResponse>>> findAdmins(AdminType adminType) {
+		//List<AdminResponse> adminResponse=adminRepository.findAllByAdminType(AdminType.ADMIN).stream()
+				//.map(adminMapper :: mapToAdminResponse)
+				//.toList();
+		return ResponseEntity.status(HttpStatus.FOUND)
+				.body(new ResponseStructure<List<AdminResponse>>()
+						//.setData(adminResponse)
+						.setMessage("Found All Admins successfully")
+						.setStatusCode(HttpStatus.FOUND.value()));
+
+
+	}
 
 }

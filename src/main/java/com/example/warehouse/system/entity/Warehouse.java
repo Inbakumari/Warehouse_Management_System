@@ -20,7 +20,7 @@ import lombok.Setter;
 public class Warehouse {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  //sql cretes autogeneratn strategy,no need of 'sequence table'
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  
 	
 	private int wareHouseId;
 	
