@@ -68,4 +68,21 @@ public class AddressServiceImpl implements AddressService {
 	        		
 	    }).orElseThrow(() -> new AddressNotFoundByIdException("Failed to Find Address"));
 	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<AddressResponse>> updateAddress(AddressRequest addressRequest,
+			int addressId) 
+	{
+		
+		return addressRepository.findById(addressId).map(address -> {
+
+			address = addressRepository.save(addressMapper.mapToAddress(addressRequest, address));
+
+			return	ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseStructure<AddressResponse>()
+							.setStatusCode(HttpStatus.OK.value())
+							.setMessage("Address Updated Successfully")
+							.setData(addressMapper.mapToAddressResponse(address)));
+		}).orElseThrow(()->new AddressNotFoundByIdException("Address Not Found"));
+	}
 }

@@ -12,6 +12,8 @@ public interface AddressService {
 
 	ResponseEntity<ResponseStructure<AddressResponse>> findAddress(int addressId);
 
+	ResponseEntity<ResponseStructure<AddressResponse>> updateAddress(AddressRequest addressRequest, int addressId);
+
 	
 
 }
