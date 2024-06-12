@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.example.warehouse.system.exception.AddressNotFoundByIdException;
 import com.example.warehouse.system.exception.AdminNotFoundByEmailException;
 import com.example.warehouse.system.exception.AdminNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
@@ -94,6 +95,14 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure> handleWarehouseNotFoundByName(WarehouseNotFoundByNameException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Warehouse Not Found");
+	}
+	
+	
+	@ExceptionHandler
+
+	public ResponseEntity<ErrorStructure> handleAddressNotFoundByName(AddressNotFoundByIdException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Address Not Found");
 	}
 	
 	

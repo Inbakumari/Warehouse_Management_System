@@ -9,6 +9,7 @@ import com.example.warehouse.system.entity.Address;
 import com.example.warehouse.system.entity.Admin;
 import com.example.warehouse.system.entity.Warehouse;
 import com.example.warehouse.system.enums.AdminType;
+import com.example.warehouse.system.exception.AddressNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByIdException;
 import com.example.warehouse.system.mapper.AddressMapper;
@@ -17,6 +18,7 @@ import com.example.warehouse.system.repository.WareHouseRepository;
 import com.example.warehouse.system.requestdto.AddressRequest;
 import com.example.warehouse.system.responsedto.AddressResponse;
 import com.example.warehouse.system.responsedto.AdminResponse;
+import com.example.warehouse.system.responsedto.WarehouseResponse;
 import com.example.warehouse.system.service.AddressService;
 import com.example.warehouse.system.utility.ResponseStructure;
 
@@ -51,5 +53,19 @@ public class AddressServiceImpl implements AddressService {
 						.setData(addressMapper.mapToAddressResponse(address)));	
 
 
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<AddressResponse>> findAddress(int addressId) {
+	    return addressRepository.findById(addressId).map(address -> {
+	        AddressResponse addressResponse = addressMapper.mapToAddressResponse(address);
+	       
+	        return	ResponseEntity.status(HttpStatus.CREATED)
+					.body(new ResponseStructure<AddressResponse>()
+							.setStatusCode(HttpStatus.CREATED.value())
+							.setMessage("Address Created")
+							.setData(addressMapper.mapToAddressResponse(address)));
+	        		
+	    }).orElseThrow(() -> new AddressNotFoundByIdException("Failed to Find Address"));
 	}
 }
