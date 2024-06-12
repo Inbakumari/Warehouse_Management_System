@@ -10,6 +10,8 @@ public interface AddressService {
 
 	ResponseEntity<ResponseStructure<AddressResponse>> createAddress(AddressRequest addressRequest, int wareHouseId);
 
+	ResponseEntity<ResponseStructure<AddressResponse>> findAddress(int addressId);
+
 	
 
 }
