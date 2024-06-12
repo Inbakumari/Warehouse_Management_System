@@ -27,6 +27,8 @@ public interface AdminService {
 
 	ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(int adminId);
 
+	ResponseEntity<ResponseStructure<List<AdminResponse>>> findAdmins();
+
 
 
 
