@@ -123,34 +123,16 @@ public class AdminServiceImpl implements AdminService {
 
 
 	@Override
-	public ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(int adminId) {
-		return adminRepository.findById(adminId)
-				.map(admin -> {
-
-
-					AdminResponse adminResponse = adminMapper.mapToAdminResponse(admin);
-
-					return ResponseEntity
-							.status(HttpStatus.FOUND)
-							.body(new ResponseStructure<AdminResponse>()
-									.setData(adminResponse)
-									.setMessage("Admin Found")
-									.setStatusCode(HttpStatus.FOUND.value()));
-				})
-				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to Find"));
-	}
-
-	@Override
 	public ResponseEntity<ResponseStructure<List<AdminResponse>>> findAdmins(AdminType adminType) {
-		//List<AdminResponse> adminResponse=adminRepository.findAllByAdminType(AdminType.ADMIN).stream()
-				//.map(adminMapper :: mapToAdminResponse)
-				//.toList();
-		return ResponseEntity.status(HttpStatus.FOUND)
-				.body(new ResponseStructure<List<AdminResponse>>()
-						//.setData(adminResponse)
-						.setMessage("Found All Admins successfully")
-						.setStatusCode(HttpStatus.FOUND.value()));
+		//List<AdminResponse> adminResponse = adminRepository.findAllByAdminType(AdminType.ADMIN).stream()
+                //.map(adminMapper::mapToAdminResponse)
+                //.toList();
 
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(new ResponseStructure<List<AdminResponse>>()
+                      // .setData(adminResponse)
+                        .setMessage("Found All Admins successfully")
+                        .setStatusCode(HttpStatus.FOUND.value()));
 
 	}
 

@@ -16,7 +16,13 @@ import com.example.warehouse.system.requestdto.WarehouseRequest;
 import com.example.warehouse.system.responsedto.AdminResponse;
 import com.example.warehouse.system.responsedto.WarehouseResponse;
 import com.example.warehouse.system.service.WarehouseService;
+import com.example.warehouse.system.utility.ErrorStructure;
 import com.example.warehouse.system.utility.ResponseStructure;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 
 
@@ -26,7 +32,18 @@ public class WarehouseController {
 
 	@Autowired
 	private WarehouseService wareHouseService;
-
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Warehouse created successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=WarehouseResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
 
 	@PostMapping("/warehouses")
 	@PreAuthorize("hasAuthority('CREATE_WAREHOUSE')") 
@@ -34,6 +51,19 @@ public class WarehouseController {
 	{
 		return  wareHouseService.createWarehouse(wareHouseRequest);
 	}
+	
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Warehouse Updated successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=WarehouseResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
 
 	@PutMapping("/warehouses/{warehouseId}")
 	public ResponseEntity<ResponseStructure<WarehouseResponse>> updateWarehouse(@RequestBody WarehouseRequest warehouseRequest, @PathVariable int warehouseId )
@@ -41,6 +71,18 @@ public class WarehouseController {
 		return wareHouseService.updateWarehouse(warehouseRequest,warehouseId);
 	}
 
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Warehouse Found successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=WarehouseResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
 	@GetMapping("/warehouses/{warehouseId}")
 
 	public ResponseEntity<ResponseStructure<WarehouseResponse>> findWarehouse(@PathVariable int warehouseId) {

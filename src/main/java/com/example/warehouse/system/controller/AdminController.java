@@ -20,9 +20,11 @@ import com.example.warehouse.system.utility.ErrorStructure;
 import com.example.warehouse.system.utility.ResponseStructure;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-
 
 @RestController  
 @RequestMapping("/api/v1")
@@ -31,19 +33,19 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
-//	
-//	@Operation(description="The endpoint is used to add the"
-//			+ " data to the data base",
-//			responses= {
-//					@ApiResponse(responseCode = "201", description="User created successfully",
-//							content= {
-//									@Content(schema = @Schema(oneOf=AdminResponse.class))
-//							}),
-//					@ApiResponse(responseCode="400", description="Invalid Input",
-//					content= {
-//							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
-//					})
-//			})
+	
+	@Operation(description="The endpoint is used to add the"		
+	+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Super Admin created successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=AdminResponse.class))
+						}),
+				@ApiResponse(responseCode="400", description="Invalid Input",
+				content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
 	
 	
 	
@@ -53,29 +55,55 @@ public class AdminController {
 		return adminService.createSuperAdmin(adminRequest);
 	}
 	
-//	@Operation(description="The endpoint is used to add the"
-//			+ " data to the data base",
-//			responses= {
-//					@ApiResponse(responseCode = "201", description="User created successfully",
-//							content= {
-//									@Content(schema = @Schema(oneOf=UserResponse.class))
-//							}),
-//					@ApiResponse(responseCode="400", description="Invalid Input",
-//					content= {
-//							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
-//					})
-//			})
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Admin created successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=AdminResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
 
 	@PostMapping("/warehouses/{wareHouseId}/admins") 
 	public ResponseEntity<ResponseStructure<AdminResponse>>	createAdmin(@RequestBody @Valid AdminRequest adminRequest,@PathVariable int wareHouseId){
 		return  adminService.createAdmin(adminRequest,wareHouseId);
 	}
+	
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description=" Updated Admin successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=AdminResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
 
 	@PutMapping("/admins")
 
 	public ResponseEntity<ResponseStructure<AdminResponse>>	updateAdmin(@RequestBody @Valid AdminRequest adminRequest){
 		return  adminService.updateAdmin(adminRequest);
 	}
+	
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Admin Updated By The Super Admin successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=AdminResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
 
 
 	@PutMapping("/admins/{adminId}")
@@ -83,10 +111,36 @@ public class AdminController {
 	    return adminService.updateAdminBySuperAdmin(adminRequest,adminId);
 	}
 	
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Admin Found successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=AdminResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
+	
 	@GetMapping("/admins/{adminId}")
 	public ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(@PathVariable int adminId) {
 	    return adminService.findAdmin(adminId);
 	}
+	
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Found All Admins successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=AdminResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
 	
 
 	@GetMapping("/admins")
