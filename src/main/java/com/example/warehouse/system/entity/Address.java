@@ -32,7 +32,7 @@ public class Address {
 	
 	
 	@OneToOne
-	
 	private Warehouse warehouse;
-
+	
+	
 }

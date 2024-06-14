@@ -26,16 +26,17 @@ public class Warehouse {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)  
 	
 	private int wareHouseId;
-	
 	private String name; 
+	private double totalCapacity;
 	
-	private int totalCapacity;
+	
 	
 	@OneToOne 
 	private Admin admin;
 	
 	
 	@OneToMany(mappedBy="warehouse")
-	
 	private List<Storage> storages;
+	
+	
 }

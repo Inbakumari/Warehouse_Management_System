@@ -1,5 +1,9 @@
 package com.example.warehouse.system.responsedto;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.warehouse.system.entity.Address;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,5 +19,8 @@ public class WarehouseResponse {
 
 	private int wareHouseId;
 	private String name; 
-	private int totalCapacity;
+	private double totalCapacity;
+	private AddressResponse addressResponse;
+	
+	
 }

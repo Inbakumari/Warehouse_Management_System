@@ -21,6 +21,7 @@ public class StorageRequest {
     private double lengthInMeters;
     private double breadthInMeters;
     private double heightInMeters;
+    private double maxAdditionalWeight;
     private List<MaterialType> materialTypes;
     
 
