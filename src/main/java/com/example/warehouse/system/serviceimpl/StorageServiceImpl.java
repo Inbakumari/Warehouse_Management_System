@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.warehouse.system.entity.Storage;
 import com.example.warehouse.system.entity.Warehouse;
+import com.example.warehouse.system.exception.StorageNotFoundByIdException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByIdException;
 import com.example.warehouse.system.mapper.StorageMapper;
 import com.example.warehouse.system.repository.StorageRespository;
@@ -58,6 +59,22 @@ public class StorageServiceImpl implements StorageService {
 	                    .setStatus(HttpStatus.CREATED.value())
 	                    .setMessage("Storage created"));
 	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<StorageResponse>> updateStorage(StorageRequest storageRequest,int storageId) {
+		
+	return storageRespository.findById(storageId).map(storage -> {
+		storage=storageMapper.mapToStorage(storageRequest, storage);
+		storageRespository.save(storage);
+	
+		storageRespository.save(storage);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ResponseStructure<StorageResponse>()
+						.setStatusCode(HttpStatus.OK.value())
+						.setMessage("Storage Updated Successfully")
+						.setData(storageMapper.mapToStorageResponse(storage)));
+	}).orElseThrow(() -> new StorageNotFoundByIdException("Stroage Not Found"));
+}
 }
 	
 

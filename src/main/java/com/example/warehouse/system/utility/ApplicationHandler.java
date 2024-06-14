@@ -16,6 +16,7 @@ import com.example.warehouse.system.exception.AddressNotFoundByIdException;
 import com.example.warehouse.system.exception.AdminNotFoundByEmailException;
 import com.example.warehouse.system.exception.AdminNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
+import com.example.warehouse.system.exception.StorageNotFoundByIdException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByIdException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByNameException;
 
@@ -103,6 +104,13 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure> handleAddressNotFoundByName(AddressNotFoundByIdException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Address Not Found");
+	}
+	
+	@ExceptionHandler
+
+	public ResponseEntity<ErrorStructure> handleStorageNotFoundById(StorageNotFoundByIdException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Storage   Not Found By the Given Id");
 	}
 	
 	
