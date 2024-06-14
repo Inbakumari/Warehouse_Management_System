@@ -1,5 +1,7 @@
 package com.example.warehouse.system.serviceimpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,14 +36,14 @@ public class WarehouseServiceImpl implements WarehouseService{
 	public ResponseEntity<ResponseStructure<WarehouseResponse>> createWarehouse(WarehouseRequest wareHouseRequest) {
 
 
-		Warehouse warehouse= wareHouseRepository.save(wareHouseMapper.mapToWareHouse(wareHouseRequest,new Warehouse()));
+		Warehouse warehouse= wareHouseRepository.save(wareHouseMapper.mapToWarehouse(wareHouseRequest,new Warehouse()));
 		wareHouseRepository.save(warehouse);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new ResponseStructure<WarehouseResponse>()
 						.setStatusCode(HttpStatus.CREATED.value())
 						.setMessage("Warehouse created")
-						.setData(wareHouseMapper.mapToWareHouseResponse(warehouse)));	
+						.setData(wareHouseMapper.mapToWarehouseResponse(warehouse)));	
 
 	}
 
@@ -51,44 +53,59 @@ public class WarehouseServiceImpl implements WarehouseService{
 	public ResponseEntity<ResponseStructure<WarehouseResponse>> updateWarehouse(WarehouseRequest warehouseRequest,
 			int warehouseId) 
 	{
-
-
-		return wareHouseRepository.findById(warehouseId).map(warehouse -> {
-
-			warehouse = wareHouseRepository.save(wareHouseMapper.mapToWareHouse(warehouseRequest, warehouse));
-
-			return	ResponseEntity.status(HttpStatus.OK)
+		return wareHouseRepository.findById(warehouseId).map(existingWarehouse -> {
+			Warehouse updatedWarehouse = wareHouseMapper.mapToWarehouse(warehouseRequest, existingWarehouse);
+			updatedWarehouse = wareHouseRepository.save(updatedWarehouse);
+			WarehouseResponse warehouseResponse = wareHouseMapper.mapToWarehouseResponse(updatedWarehouse);
+			return ResponseEntity.status(HttpStatus.OK)
 					.body(new ResponseStructure<WarehouseResponse>()
 							.setStatusCode(HttpStatus.OK.value())
 							.setMessage("Warehouse Updated Successfully")
-							.setData(wareHouseMapper.mapToWareHouseResponse(warehouse)));
-		}).orElseThrow(()->new WarehouseNotFoundByNameException("Warehouse Not Found"));
-
+							.setData(warehouseResponse));
+		}).orElseThrow(() -> new WarehouseNotFoundByNameException("Warehouse Not Found"));
 
 	}
 
 
 
-@Override
+	@Override
 	public ResponseEntity<ResponseStructure<WarehouseResponse>> findWarehouse(int warehouseId) {
 		return wareHouseRepository.findById(warehouseId).map(warehouse -> 
 		{
-			WarehouseResponse warehouseResponse=wareHouseMapper.mapToWareHouseResponse(warehouse);
-					return ResponseEntity
-							.status(HttpStatus.FOUND)
-							.body(new ResponseStructure<WarehouseResponse>()
-									.setStatusCode(HttpStatus.FOUND.value())
-									.setMessage("Warehouse Found")
-									.setData(warehouseResponse));
+			WarehouseResponse warehouseResponse=wareHouseMapper.mapToWarehouseResponse(warehouse);
+			return ResponseEntity
+					.status(HttpStatus.FOUND)
+					.body(new ResponseStructure<WarehouseResponse>()
+							.setStatusCode(HttpStatus.FOUND.value())
+							.setMessage("Warehouse Found")
+							.setData(warehouseResponse));
 		}).orElseThrow(() -> new WarehouseNotFoundByIdException("Failed to Found Warehouse"));
-							
-							
-					
 
-		}
 
-	
+
+
 	}
+
+
+
+	@Override
+	public ResponseEntity<ResponseStructure<List<WarehouseResponse>>> findWarehouses() {
+
+		List<WarehouseResponse> warehouseResponse = wareHouseRepository.findAll().stream()
+				.map(warehouse -> wareHouseMapper.mapToWarehouseResponse(warehouse))
+				.toList();
+
+		return ResponseEntity.status(HttpStatus.FOUND)
+				.body(new ResponseStructure<List<WarehouseResponse>>()
+						.setData(warehouseResponse)
+						.setMessage("Warehouse Found successfully")
+						.setStatusCode(HttpStatus.FOUND.value()));
+	}
+
+
+
+
+}
 
 
 

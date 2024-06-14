@@ -10,17 +10,17 @@ import com.example.warehouse.system.responsedto.WarehouseResponse;
 @Component
 public class WareHouseMapper {
 
-	public Warehouse mapToWareHouse(WarehouseRequest wareHouseRequest, Warehouse wareHouse) {
-		wareHouse.setName(wareHouseRequest.getName());
-		return wareHouse;			
-	}	
-		
-		public WarehouseResponse mapToWareHouseResponse(Warehouse wareHouse) {
-			return WarehouseResponse.builder()
-					.wareHouseId(wareHouse.getWareHouseId())
-					.name(wareHouse.getName())
-					.totalCapacity(0)
-					.build();
+	public Warehouse mapToWarehouse(WarehouseRequest warehouseRequest, Warehouse warehouse) {
+        warehouse.setName(warehouseRequest.getName());
+        return warehouse;
+    }   
+    
+    public WarehouseResponse mapToWarehouseResponse(Warehouse warehouse) {
+        return WarehouseResponse.builder()
+                .wareHouseId(warehouse.getWareHouseId())
+                .name(warehouse.getName())
+                .totalCapacity(warehouse.getTotalCapacity())
+                .build();
 		}
 
 		
