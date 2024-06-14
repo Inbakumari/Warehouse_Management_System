@@ -1,0 +1,91 @@
+package com.example.warehouse.system.serviceimpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.example.warehouse.system.entity.Storage;
+import com.example.warehouse.system.entity.Warehouse;
+import com.example.warehouse.system.exception.WarehouseNotFoundByIdException;
+import com.example.warehouse.system.mapper.StorageMapper;
+import com.example.warehouse.system.repository.StorageRespository;
+import com.example.warehouse.system.repository.WareHouseRepository;
+import com.example.warehouse.system.requestdto.StorageRequest;
+import com.example.warehouse.system.responsedto.StorageResponse;
+import com.example.warehouse.system.responsedto.WarehouseResponse;
+import com.example.warehouse.system.service.StorageService;
+import com.example.warehouse.system.utility.ResponseStructure;
+import com.example.warehouse.system.utility.SimpleStructure;
+
+@Service
+public class StorageServiceImpl implements StorageService {
+
+	@Autowired
+
+	private StorageRespository storageRespository;
+
+	@Autowired
+
+	private StorageMapper storageMapper;
+
+	@Autowired
+	private WareHouseRepository wareHouseRepository;
+
+	@Override
+	public ResponseEntity<SimpleStructure<String>> createStorage(StorageRequest storageRequest, int wareHouseId,
+	        int noOfStorageUnits) {
+	    Warehouse warehouse = wareHouseRepository.findById(wareHouseId)
+	            .orElseThrow(() -> new WarehouseNotFoundByIdException("Warehouse not Found"));
+
+	    List<Storage> storages = new ArrayList<>();
+	    while (noOfStorageUnits > 0) {
+	        Storage storage = storageMapper.mapToStorage(storageRequest, new Storage());
+	        storage.setWarehouse(warehouse);
+	        storage.setAvailabeArea(storageRequest.getLengthInMeters() * storageRequest.getBreadthInMeters() * storageRequest.getHeightInMeters());
+	        storage.setCapacityInWeight(storageRequest.getCapacityInKg());
+	        storages.add(storage);
+	        noOfStorageUnits--;
+	    }
+
+	    storageRespository.saveAll(storages);
+
+	    return ResponseEntity.status(HttpStatus.CREATED)
+	            .body(new SimpleStructure<String>()
+	                    .setStatus(HttpStatus.CREATED.value())
+	                    .setMessage("Storage created"));
+	}
+}
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
