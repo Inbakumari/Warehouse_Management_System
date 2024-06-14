@@ -18,6 +18,8 @@ public class WarehouseRequest {
 	@NotNull(message="username cannot be null")
 	@NotBlank(message="username cannot be blank")
 	private String name; 
+	
+	
 
 	
 

@@ -48,11 +48,14 @@ public class StorageServiceImpl implements StorageService {
 	        storage.setWarehouse(warehouse);
 	        storage.setAvailabeArea(storageRequest.getLengthInMeters() * storageRequest.getBreadthInMeters() * storageRequest.getHeightInMeters());
 	        storage.setCapacityInWeight(storageRequest.getCapacityInKg());
+	        storage.setMaxAdditionalWeight(storageRequest.getMaxAdditionalWeight());
+	        warehouse.setTotalCapacity(storageRequest.getCapacityInKg()*noOfStorageUnits+warehouse.getTotalCapacity());
 	        storages.add(storage);
 	        noOfStorageUnits--;
 	    }
 
 	    storageRespository.saveAll(storages);
+	    wareHouseRepository.save(warehouse);
 
 	    return ResponseEntity.status(HttpStatus.CREATED)
 	            .body(new SimpleStructure<String>()
