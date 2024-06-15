@@ -71,7 +71,7 @@ public class StorageServiceImpl implements StorageService {
 			storage=storageMapper.mapToStorage(storageRequest, storage);
 			storageRespository.save(storage);
 
-			storageRespository.save(storage);
+			
 			return ResponseEntity.status(HttpStatus.OK)
 					.body(new ResponseStructure<StorageResponse>()
 							.setStatusCode(HttpStatus.OK.value())

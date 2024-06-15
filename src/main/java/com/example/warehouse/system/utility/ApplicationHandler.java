@@ -18,6 +18,7 @@ import com.example.warehouse.system.exception.AdminNotFoundByIdException;
 import com.example.warehouse.system.exception.ClientNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
 import com.example.warehouse.system.exception.StorageNotFoundByIdException;
+import com.example.warehouse.system.exception.StorageTypeNotFoundByIdException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByCityException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByIdException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByNameException;
@@ -129,6 +130,13 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure> handleClientNotFoundById(ClientNotFoundByIdException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Client  Not Found By the Given Id");
+	}
+	
+	@ExceptionHandler
+
+	public ResponseEntity<ErrorStructure> handleStorageTypeNotFoundById(StorageTypeNotFoundByIdException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"StorageType Not Found By the Given Id");
 	}
 	
 
