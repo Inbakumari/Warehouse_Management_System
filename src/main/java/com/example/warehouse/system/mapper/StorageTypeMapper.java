@@ -21,7 +21,7 @@ public class StorageTypeMapper {
 	}
 
 
-	public StorageTypeResponse MapToStorageTypeResponse(StorageType storageType)
+	public StorageTypeResponse mapToStorageTypeResponse(StorageType storageType)
 	{
 		return StorageTypeResponse.builder()
 
