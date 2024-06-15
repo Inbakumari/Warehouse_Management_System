@@ -2,13 +2,16 @@ package com.example.warehouse.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.warehouse.system.requestdto.ClientRequest;
 import com.example.warehouse.system.responsedto.ApiKeyResponse;
+import com.example.warehouse.system.responsedto.ClientResponse;
 import com.example.warehouse.system.service.ClientService;
 import com.example.warehouse.system.utility.ResponseStructure;
 
@@ -26,6 +29,13 @@ public class ClientController {
 	public ResponseEntity<ResponseStructure<ApiKeyResponse>> registerClient(@RequestBody ClientRequest clientRequest)
 	{
 		return clientService.registerClient(clientRequest);
+	}
+	
+@PutMapping("/clients/{clientId}")
+	
+	public ResponseEntity<ResponseStructure<ClientResponse>> updateClientById(@RequestBody ClientRequest clientRequest, @PathVariable int clientId)
+	{
+		return clientService.registerClient(clientRequest, clientId);
 	}
 	
 	

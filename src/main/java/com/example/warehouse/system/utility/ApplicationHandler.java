@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.example.warehouse.system.exception.AddressNotFoundByIdException;
 import com.example.warehouse.system.exception.AdminNotFoundByEmailException;
 import com.example.warehouse.system.exception.AdminNotFoundByIdException;
+import com.example.warehouse.system.exception.ClientNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
 import com.example.warehouse.system.exception.StorageNotFoundByIdException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByCityException;
@@ -121,6 +122,13 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure> handleWarehouseNotFoundByCity(WarehouseNotFoundByCityException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Warehouse  Not Found By the Given City");
+	}
+	
+	@ExceptionHandler
+
+	public ResponseEntity<ErrorStructure> handleClientNotFoundById(ClientNotFoundByIdException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Client  Not Found By the Given Id");
 	}
 	
 
