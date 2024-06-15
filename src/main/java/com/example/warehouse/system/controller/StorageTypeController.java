@@ -1,7 +1,10 @@
 package com.example.warehouse.system.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -72,6 +75,28 @@ public class StorageTypeController {
 		return storageTypeService.updateStorageTypeById(storageTypeRequest,storageTypeId);
 	}	
 			
+	@Operation(description="The endpoint is used to add the"		
+			+ " data to the data base",
+					responses= {
+							@ApiResponse(responseCode = "201", description="StorageType Found successfully",
+									content= {
+											@Content(schema = @Schema(oneOf=StorageTypeResponse.class))
+								}),
+						@ApiResponse(responseCode="400", description="Invalid Input",
+						content= {
+									@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+							})
+					})
 			
+			
+			
+	
+	@GetMapping("/storagetypes")
+	
+	public ResponseEntity<ResponseStructure<List<StorageTypeResponse>>> findAllStorageTypes()
+	{
+		return storageTypeService.findAllStorageTypes();
+	}
+		
 
 }
