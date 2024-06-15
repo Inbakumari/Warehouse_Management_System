@@ -13,7 +13,7 @@ public class StorageMapper {
 	    public Storage mapToStorage(StorageRequest storageRequest, Storage storage) {
 	        storage.setBlockName(storageRequest.getBlockName());
 	        storage.setSection(storageRequest.getSection());
-	        storage.setCapacityInWeight(storageRequest.getCapacityInKg());
+	        storage.setCapacityInKg(storageRequest.getCapacityInKg());
 	        storage.setMaterialTypes(storageRequest.getMaterialTypes());
 	        storage.setLengthInMeters(storageRequest.getLengthInMeters());
 	        storage.setBreadthInMeters(storageRequest.getBreadthInMeters());
@@ -27,7 +27,7 @@ public class StorageMapper {
 	                .blockName(storage.getBlockName())
 	                .section(storage.getSection())
 	                .availableArea(storage.getAvailabeArea())
-	                .capacityWeight(storage.getCapacityInWeight())
+	                .capacityInKg(storage.getCapacityInKg())
 	                .materialTypes(storage.getMaterialTypes())
 	                .build();
 	    }

@@ -136,4 +136,11 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
+
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(int adminId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

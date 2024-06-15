@@ -25,7 +25,7 @@ public class WareHouseMapper {
         return WarehouseResponse.builder()
                 .wareHouseId(warehouse.getWareHouseId())
                 .name(warehouse.getName())
-                .totalCapacity(warehouse.getTotalCapacity())
+                .totalCapacityInKg(warehouse.getTotalCapacityInKg())
                 .build();
 		}
     

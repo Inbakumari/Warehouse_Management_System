@@ -23,27 +23,24 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Storage {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	
+
 	private int storageId;
 	private String blockName;
 	private String section;
 	private double lengthInMeters;
 	private double breadthInMeters;
 	private double heightInMeters;
-	private double capacityInWeight;
-	
-	
-   List< MaterialType> materialTypes;
-	
+	private double capacityInKg;
+	List< MaterialType> materialTypes;
 	private double maxAdditionalWeight;
 	private double availabeArea;
-	
-	
+
+
 	@ManyToOne	
 	private Warehouse warehouse;
-	
+
 
 }

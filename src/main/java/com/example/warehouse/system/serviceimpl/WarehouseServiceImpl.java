@@ -45,7 +45,7 @@ public class WarehouseServiceImpl implements WarehouseService{
 
 
 		Warehouse warehouse= wareHouseRepository.save(wareHouseMapper.mapToWarehouse(wareHouseRequest,new Warehouse()));
-		warehouse.setTotalCapacity(0);
+		warehouse.setTotalCapacityInKg(0);
 		wareHouseRepository.save(warehouse);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
