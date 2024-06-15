@@ -19,7 +19,7 @@ public class WarehouseResponse {
 
 	private int wareHouseId;
 	private String name; 
-	private double totalCapacity;
+	private double totalCapacityInKg;
 	private AddressResponse addressResponse;
 	
 	

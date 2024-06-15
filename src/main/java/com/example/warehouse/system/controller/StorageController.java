@@ -2,6 +2,7 @@ package com.example.warehouse.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.warehouse.system.entity.Storage;
 import com.example.warehouse.system.repository.StorageRespository;
 import com.example.warehouse.system.requestdto.StorageRequest;
 import com.example.warehouse.system.responsedto.StorageResponse;
@@ -31,6 +33,10 @@ public class StorageController {
 	@Autowired
 	
 	private StorageService storageService;
+	
+	
+	@Autowired
+	private StorageRespository storageRespository;
 	
 	@Operation(description="The endpoint is used to add the"
 			+ " data to the data base",
@@ -69,5 +75,10 @@ public class StorageController {
 	{
 		return storageService.updateStorage(storageRequest,storageId);
 	}
-
+	
+	@GetMapping("/getStorage/{capacityInKg}/{lengthInMeters}/{breadthInMeters}/{HeightInMeters}")
+	public ResponseEntity<ResponseStructure<StorageResponse>> findByFirstStorage(@PathVariable double capacityInKg,@PathVariable double lengthInMeters,@PathVariable double breadthInMeters, @PathVariable double HeightInMeters)
+	{
+		return storageService.findByFirstStorage(capacityInKg,lengthInMeters,breadthInMeters,HeightInMeters) ;
+	}
 }
