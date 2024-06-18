@@ -23,7 +23,7 @@ import lombok.Setter;
 public class Admin {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  //sql cretes autogeneratn strategy,no need of 'sequence table'
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  
 	private int adminId;
 	private String name;
 	private String email;
