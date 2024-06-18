@@ -2,6 +2,7 @@ package com.example.warehouse.system.serviceimpl;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -87,6 +88,18 @@ public class InventoryServiceImpl implements InventoryService {
 				.setData(inventoryMapper.mapToInventoryResponse(inventory)));
 	}).orElseThrow(() -> new InventoryNotFoundByIdException("Inventory Not Found By The Given Id"));
 }
+
+	@Override
+	public ResponseEntity<ResponseStructure<List<InventoryResponse>>> findAllInventorys() {
+		List<InventoryResponse> inventoryResponse=inventoryRepository.findAll().stream().map(inventory -> inventoryMapper.mapToInventoryResponse(inventory))
+		.toList();
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ResponseStructure<List<InventoryResponse>>()
+						.setStatusCode(HttpStatus.OK.value())
+						.setMessage("Found All Inventories Successfully")
+						.setData(inventoryResponse));
+	}
 }
 
 

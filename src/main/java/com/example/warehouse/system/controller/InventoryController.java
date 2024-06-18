@@ -1,5 +1,7 @@
 package com.example.warehouse.system.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,6 +68,27 @@ public class InventoryController {
 	public ResponseEntity<ResponseStructure<InventoryResponse>> findInventoryById(@PathVariable int inventoryId)
 	{
 		return inventoryService.findInventoryById(inventoryId);
+	}
+	
+	
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Inventory Found successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=InventoryResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
+	
+@GetMapping("/inventories")
+	
+	public ResponseEntity<ResponseStructure<List<InventoryResponse>>> findAllInventorys()
+	{
+		return inventoryService.findAllInventorys();
 	}
 
 }
