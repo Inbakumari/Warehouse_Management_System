@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.example.warehouse.system.exception.AddressNotFoundByIdException;
 import com.example.warehouse.system.exception.AdminNotFoundByEmailException;
 import com.example.warehouse.system.exception.AdminNotFoundByIdException;
+import com.example.warehouse.system.exception.BadCredentialsException;
 import com.example.warehouse.system.exception.ClientNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
 import com.example.warehouse.system.exception.StorageNotFoundByIdException;
 import com.example.warehouse.system.exception.StorageTypeNotFoundByIdException;
+import com.example.warehouse.system.exception.UserNameNotFoundException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByCityException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByIdException;
 import com.example.warehouse.system.exception.WarehouseNotFoundByNameException;
@@ -137,6 +139,21 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure> handleStorageTypeNotFoundById(StorageTypeNotFoundByIdException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"StorageType Not Found By the Given Id");
+	}
+	
+	
+	@ExceptionHandler
+
+	public ResponseEntity<ErrorStructure> handleUserNameNotFound(UserNameNotFoundException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"User Not Found");
+	}
+	
+	@ExceptionHandler
+
+	public ResponseEntity<ErrorStructure> handleBadCredentialsException(BadCredentialsException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Bad Credentials Exception");
 	}
 	
 

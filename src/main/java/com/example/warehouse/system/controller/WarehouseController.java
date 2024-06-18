@@ -124,8 +124,27 @@ public class WarehouseController {
 			})
 	
 	@GetMapping("/cities/{city}/warehouses")
-    public ResponseEntity<ResponseStructure<List<WarehouseResponse>>> findWarehousesByCity(@RequestBody  WarehouseRequest warehouseRequest,@PathVariable String city) {
+    public ResponseEntity<ResponseStructure<List<WarehouseResponse>>> findWarehousesByCityFordmin(@RequestBody  WarehouseRequest warehouseRequest,@PathVariable String city) {
         return wareHouseService.findWarehousesByCity(warehouseRequest,city);
     }
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Warehouse Found successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=WarehouseResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
+	
+	@GetMapping("/client/cities/{city}/warehouses")
+	public ResponseEntity<ResponseStructure<List<WarehouseResponse>>> findWarehousesByCityForClient(@RequestBody WarehouseRequest warehouseRequest, @PathVariable String city) {
+	    return wareHouseService.findWarehousesByCity(warehouseRequest, city);
+	}
+
+	
 
 }

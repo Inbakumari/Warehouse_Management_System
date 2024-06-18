@@ -11,6 +11,6 @@ import com.example.warehouse.system.utility.ResponseStructure;
 
 public interface StorageRespository extends JpaRepository<Storage, Integer> {
 
-	Optional<Storage> findByCapacityInKgAndLengthInMetersAndBreadthInMetersAndHeightInMeters(double capacityInKg, double lengthInMeters, double breadthInMeters, double HeightInMeters);
+	//Optional<Storage> findByCapacityInKgAndLengthInMetersAndBreadthInMetersAndHeightInMeters(double capacityInKg, double lengthInMeters, double breadthInMeters, double HeightInMeters);
 
 }

@@ -10,7 +10,7 @@ import com.example.warehouse.system.utility.SimpleStructure;
 public interface StorageService {
 
 	ResponseEntity<SimpleStructure<String>> createStorage(StorageRequest storageRequest, int wareHouseId,
-			int noOfStorageUnits);
+			int noOfStorageUnits,int storageTypeId);
 
 	ResponseEntity<ResponseStructure<StorageResponse>> updateStorage(StorageRequest storageRequest, int storageId);
 
