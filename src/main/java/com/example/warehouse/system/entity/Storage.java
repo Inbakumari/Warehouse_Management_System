@@ -30,13 +30,10 @@ public class Storage {
 	private int storageId;
 	private String blockName;
 	private String section;
-	private double lengthInMeters;
-	private double breadthInMeters;
-	private double heightInMeters;
-	private double capacityInKg;
 	List< MaterialType> materialTypes;
 	private double maxAdditionalWeight;
 	private double availabeArea;
+	private int sellerId;
 
 
 	@ManyToOne	

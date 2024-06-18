@@ -50,11 +50,11 @@ public class StorageController {
 							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
 					})
 			})
-	@PostMapping("/warehouses/{wareHouseId}/storages")
-	public ResponseEntity<SimpleStructure<String>> createStorage(@RequestBody StorageRequest storageRequest,@PathVariable int wareHouseId, @RequestParam int noOfStorageUnits)
+	@PostMapping("/warehouses/{wareHouseId}/{storageTypeId}/storages")
+	public ResponseEntity<SimpleStructure<String>> createStorage(@RequestBody StorageRequest storageRequest,@PathVariable int wareHouseId, @RequestParam int noOfStorageUnits, @PathVariable int storageTypeId)
 
 	{
-		return storageService.createStorage(storageRequest,wareHouseId,noOfStorageUnits);
+		return storageService.createStorage(storageRequest,wareHouseId,noOfStorageUnits, storageTypeId);
 	}
 	
 	
