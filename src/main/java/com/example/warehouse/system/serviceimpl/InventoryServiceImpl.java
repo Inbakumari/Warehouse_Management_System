@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.warehouse.system.entity.Client;
 import com.example.warehouse.system.entity.Inventory;
 import com.example.warehouse.system.entity.Storage;
+import com.example.warehouse.system.exception.AddressNotFoundByIdException;
 import com.example.warehouse.system.exception.ClientNotFoundByIdException;
 import com.example.warehouse.system.exception.InventoryNotFoundByIdException;
 import com.example.warehouse.system.exception.StorageNotFoundByIdException;
@@ -20,6 +21,8 @@ import com.example.warehouse.system.repository.ClientRepository;
 import com.example.warehouse.system.repository.InventoryRepository;
 import com.example.warehouse.system.repository.StorageRespository;
 import com.example.warehouse.system.requestdto.InventoryRequest;
+import com.example.warehouse.system.responsedto.AddressResponse;
+import com.example.warehouse.system.responsedto.ClientResponse;
 import com.example.warehouse.system.responsedto.InventoryResponse;
 import com.example.warehouse.system.service.InventoryService;
 import com.example.warehouse.system.utility.ResponseStructure;
@@ -100,7 +103,25 @@ public class InventoryServiceImpl implements InventoryService {
 						.setMessage("Found All Inventories Successfully")
 						.setData(inventoryResponse));
 	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<InventoryResponse>> updateInventoryById(
+			InventoryRequest inventoryRequest, int inventoryId) {
+		return  inventoryRepository.findById(inventoryId).map(inventory -> {
+
+			inventory = inventoryRepository.save(inventoryMapper.mapToInventory(inventoryRequest, inventory));
+
+				return  ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseStructure<InventoryResponse>()
+							.setStatusCode(HttpStatus.OK.value())
+							.setMessage("Inventory Updated Successfully")
+							.setData(inventoryMapper.mapToInventoryResponse(inventory)));
+		}).orElseThrow(()->new InventoryNotFoundByIdException("Inventory  Not Found"));
+	}
 }
+
+	
+
 
 
 

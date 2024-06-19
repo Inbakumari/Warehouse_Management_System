@@ -17,4 +17,6 @@ public interface InventoryService {
 
 	ResponseEntity<ResponseStructure<List<InventoryResponse>>> findAllInventorys();
 
+	ResponseEntity<ResponseStructure<InventoryResponse>> updateInventoryById(InventoryRequest inventoryRequest, int inventoryId);
+
 }
