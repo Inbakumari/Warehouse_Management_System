@@ -19,6 +19,7 @@ import com.example.warehouse.system.repository.AdminRepository;
 import com.example.warehouse.system.repository.WareHouseRepository;
 import com.example.warehouse.system.requestdto.AdminRequest;
 import com.example.warehouse.system.responsedto.AdminResponse;
+import com.example.warehouse.system.responsedto.WarehouseResponse;
 import com.example.warehouse.system.service.AdminService;
 import com.example.warehouse.system.utility.ResponseStructure;
 
@@ -139,8 +140,16 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ResponseEntity<ResponseStructure<AdminResponse>> findAdmin(int adminId) {
-		// TODO Auto-generated method stub
-		return null;
+		return adminRepository.findById(adminId).map(admin -> 
+		{
+			AdminResponse adminResponse=adminMapper.mapToAdminResponse(admin);
+			return ResponseEntity
+					.status(HttpStatus.FOUND)
+					.body(new ResponseStructure<AdminResponse>()
+							.setStatusCode(HttpStatus.FOUND.value())
+							.setMessage("Admin Found")
+							.setData(adminResponse));
+		}).orElseThrow(() -> new AdminNotFoundByIdException("Failed to Found Admin"));
 	}
 
 }
