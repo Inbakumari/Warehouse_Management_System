@@ -12,6 +12,7 @@ import com.example.warehouse.system.entity.Client;
 import com.example.warehouse.system.entity.Inventory;
 import com.example.warehouse.system.entity.Storage;
 import com.example.warehouse.system.exception.ClientNotFoundByIdException;
+import com.example.warehouse.system.exception.InventoryNotFoundByIdException;
 import com.example.warehouse.system.exception.StorageNotFoundByIdException;
 import com.example.warehouse.system.mapper.InventoryMapper;
 import com.example.warehouse.system.repository.ClientRepository;
@@ -73,5 +74,37 @@ public class InventoryServiceImpl implements InventoryService {
 				
 			
 		}
+
+	@Override
+	public ResponseEntity<ResponseStructure<InventoryResponse>> findInventoryById(int inventoryId) {
+		return inventoryRepository.findById(inventoryId).map(inventory -> {
+			
+		return ResponseEntity
+				.status(HttpStatus.FOUND)
+		        .body(new ResponseStructure<InventoryResponse>()
+				.setStatusCode(HttpStatus.FOUND.value())
+				.setMessage("Inventory Found Succesfully")
+				.setData(inventoryMapper.mapToInventoryResponse(inventory)));
+	}).orElseThrow(() -> new InventoryNotFoundByIdException("Inventory Not Found By The Given Id"));
 }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
