@@ -2,7 +2,7 @@ package com.example.warehouse.system.responsedto;
 
 import java.util.List;
 
-import com.example.warehouse.system.enums.MaterialType;
+import com.example.warehouse.system.enums.MaterialTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,7 @@ public class StorageResponse {
 	private String section;
 	private double capacityInArea;
 	private double capacityInKg;
-	private List<MaterialType> materialTypes;
+	private List<MaterialTypes> materialTypes;
 	private double maxAdditonalWeight;
 	private double availableArea;
 

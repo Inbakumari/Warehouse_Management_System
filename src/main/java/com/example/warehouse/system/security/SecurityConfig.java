@@ -1,6 +1,5 @@
 package com.example.warehouse.system.security;
 
-import org.springdoc.core.properties.SwaggerUiConfigProperties.Csrf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.example.warehouse.system.filters.ClientRequestFilter;
 import com.example.warehouse.system.repository.ClientRepository;
 
-import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 
 
 @Configuration

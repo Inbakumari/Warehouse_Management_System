@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.warehouse.system.entity.Inventory;
@@ -43,11 +45,13 @@ public class InventoryController {
 					})
 			})
 	
-	@PostMapping("/inventories/{storageId}/{clientId}")
+	@PostMapping("/storages/{storageId}/clients/{clientId}/inventories")
 	
-	public ResponseEntity<ResponseStructure<InventoryResponse>> createInventory(@RequestBody InventoryRequest inventoryRequest, @PathVariable int storageId, @PathVariable int clientId)
+	public ResponseEntity<ResponseStructure<InventoryResponse>> createInventory(@RequestBody InventoryRequest inventoryRequest,
+			@PathVariable int storageId,  @PathVariable int clientId,
+			@RequestParam("quantity") int  quantity)
 	{
-		return inventoryService.createInventory(inventoryRequest,storageId,clientId);
+		return inventoryService.createInventory(inventoryRequest,storageId, quantity,clientId);
 	}
 	
 	@Operation(description="The endpoint is used to add the"
@@ -89,6 +93,28 @@ public class InventoryController {
 	public ResponseEntity<ResponseStructure<List<InventoryResponse>>> findAllInventorys()
 	{
 		return inventoryService.findAllInventorys();
+	}
+	
+	
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Inventory Updated successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=InventoryResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
+	
+@PutMapping("/inventories/{inventoryId}")
+	
+	public ResponseEntity<ResponseStructure<InventoryResponse>> updateInventoryById(@RequestBody InventoryRequest inventoryRequest, @PathVariable int inventoryId)
+	
+	{
+		return inventoryService.updateInventoryById(inventoryRequest,inventoryId);
 	}
 
 }

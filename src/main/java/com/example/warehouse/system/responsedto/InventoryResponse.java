@@ -2,8 +2,10 @@ package com.example.warehouse.system.responsedto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
-import com.example.warehouse.system.enums.MaterialType;
+import com.example.warehouse.system.entity.Batch;
+import com.example.warehouse.system.enums.MaterialTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,13 +24,10 @@ public class InventoryResponse {
 	
 	private int productId;
 	private String productTitle;
-	private double lengthInMeters;
-	private double breadthInMeters;
-	private double heightInMeters;
-	private double weightInKG;
-	private double quantity;
-	private MaterialType materialType;
+	private double weightInKg;
+	private List<MaterialTypes> materialTypes;
 	private LocalDate restockedAt;
-	private int sellerId;
+    private int sellerId;
+    private List<BatchResponse> batches;
 
 }

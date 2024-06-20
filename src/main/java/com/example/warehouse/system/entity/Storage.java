@@ -2,7 +2,7 @@ package com.example.warehouse.system.entity;
 
 import java.util.List;
 
-import com.example.warehouse.system.enums.MaterialType;
+import com.example.warehouse.system.enums.MaterialTypes;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,7 +32,7 @@ public class Storage {
 	private int storageId;
 	private String blockName;
 	private String section;
-	List< MaterialType> materialTypes;
+	List< MaterialTypes> materialTypes;
 	private double maxAdditionalWeight;
 	private double availabeArea;
 	private int sellerId;
@@ -45,8 +45,8 @@ public class Storage {
 	
 	private StorageType storageType;
 	
-	@ManyToMany
-    private List<Inventory> inventories;
+	@OneToMany
+    private List<Batch> batch;
 
 
 }

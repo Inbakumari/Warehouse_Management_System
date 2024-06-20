@@ -11,10 +11,12 @@ import com.example.warehouse.system.utility.ResponseStructure;
 
 public interface InventoryService {
 
-	ResponseEntity<ResponseStructure<InventoryResponse>> createInventory(InventoryRequest inventoryRequest,int storageId,int clientId);
+	ResponseEntity<ResponseStructure<InventoryResponse>> createInventory(InventoryRequest inventoryRequest,int storageId,int quantity,int clientId);
 
 	ResponseEntity<ResponseStructure<InventoryResponse>> findInventoryById(int inventoryId);
 
 	ResponseEntity<ResponseStructure<List<InventoryResponse>>> findAllInventorys();
+
+	ResponseEntity<ResponseStructure<InventoryResponse>> updateInventoryById(InventoryRequest inventoryRequest, int inventoryId);
 
 }

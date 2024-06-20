@@ -4,13 +4,15 @@ import java.time.LocalDate;
 
 import java.util.List;
 
-import com.example.warehouse.system.enums.MaterialType;
+import com.example.warehouse.system.enums.MaterialTypes;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,17 +36,14 @@ public class Inventory {
 	private double breadthInMeters;
 	private double heightInMeters;
 	private double weightInKG;
-	private double quantity;
-	private MaterialType materialType;
+	private List<MaterialTypes> materialTypes;
 	private LocalDate restockedAt;
 	private int sellerId;
 	
-	
-	@ManyToMany(mappedBy = "inventories")
-    private List<Storage> storages;;
-    
-    @OneToOne
-    
+	@ManyToOne
     private  Client client;
+    
+    @OneToMany(mappedBy="inventory")
+    private List<Batch> batch;
 
 }
