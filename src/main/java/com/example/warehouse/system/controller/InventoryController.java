@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.warehouse.system.entity.Inventory;
@@ -44,11 +45,13 @@ public class InventoryController {
 					})
 			})
 	
-	@PostMapping("/inventories/{storageId}/{clientId}")
+	@PostMapping("/storages/{storageId}/clients/{clientId}/inventories")
 	
-	public ResponseEntity<ResponseStructure<InventoryResponse>> createInventory(@RequestBody InventoryRequest inventoryRequest, @PathVariable int storageId, @PathVariable int clientId)
+	public ResponseEntity<ResponseStructure<InventoryResponse>> createInventory(@RequestBody InventoryRequest inventoryRequest,
+			@PathVariable int storageId,  @PathVariable int clientId,
+			@RequestParam("quantity") int  quantity)
 	{
-		return inventoryService.createInventory(inventoryRequest,storageId,clientId);
+		return inventoryService.createInventory(inventoryRequest,storageId, quantity,clientId);
 	}
 	
 	@Operation(description="The endpoint is used to add the"

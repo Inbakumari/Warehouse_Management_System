@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.warehouse.system.entity.Storage;
 import com.example.warehouse.system.entity.StorageType;
-import com.example.warehouse.system.enums.MaterialType;
+import com.example.warehouse.system.enums.MaterialTypes;
 import com.example.warehouse.system.requestdto.StorageRequest;
 import com.example.warehouse.system.responsedto.StorageResponse;
 

@@ -1,38 +1,39 @@
 package com.example.warehouse.system.entity;
-import java.util.List;
+
+import com.example.warehouse.system.responsedto.StorageResponse;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor 
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 
-public class Client {
+public class Batch {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	
-	private int clientId;
-	private String businessName;
-	private String email;
-	private String contactNumber;
-	private String apiKey;
+	private int batchId;
+	private double quantity;
 	
 	
-	@OneToMany(mappedBy="client")
-	private List<Inventory> inventory;
+	@ManyToOne
+	private Inventory inventory;
 	
+	@ManyToOne
+	private Storage storage;
 
 }
