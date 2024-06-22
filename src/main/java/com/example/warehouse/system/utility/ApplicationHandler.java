@@ -19,6 +19,7 @@ import com.example.warehouse.system.exception.BadCredentialsException;
 import com.example.warehouse.system.exception.ClientNotFoundByIdException;
 import com.example.warehouse.system.exception.IllegalOperationException;
 import com.example.warehouse.system.exception.InventoryNotFoundByIdException;
+import com.example.warehouse.system.exception.SpaceOrWeightNotAvailableException;
 import com.example.warehouse.system.exception.StorageNotFoundByIdException;
 import com.example.warehouse.system.exception.StorageTypeNotFoundByIdException;
 import com.example.warehouse.system.exception.UserNameNotFoundException;
@@ -164,6 +165,15 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure> handleInventoryNotFoundByIdException(InventoryNotFoundByIdException ex)
 	{
 		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Inventory Not Found");
+	}
+	
+	
+
+	@ExceptionHandler
+
+	public ResponseEntity<ErrorStructure> handleSpaceNotAvailableException(SpaceOrWeightNotAvailableException ex)
+	{
+		return errorResponse(HttpStatus.NOT_FOUND,ex.getMessage(),"Storage Is Full");
 	}
 	
 

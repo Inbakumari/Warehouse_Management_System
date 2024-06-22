@@ -15,7 +15,7 @@ public class BatchResponse {
 	
 	
 	private int batchId;
-	private double quantity;
+	private int quantity;
 	private StorageResponse storage;
 
 }

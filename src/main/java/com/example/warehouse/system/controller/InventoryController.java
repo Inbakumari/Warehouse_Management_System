@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.warehouse.system.entity.Inventory;
 import com.example.warehouse.system.requestdto.InventoryRequest;
+import com.example.warehouse.system.responsedto.BatchResponse;
 import com.example.warehouse.system.responsedto.ClientResponse;
 import com.example.warehouse.system.responsedto.InventoryResponse;
 import com.example.warehouse.system.service.InventoryService;
@@ -25,6 +26,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -109,12 +111,34 @@ public class InventoryController {
 					})
 			})
 	
-@PutMapping("/inventories/{inventoryId}")
+@PutMapping("/storages/{storageId}/inventories/{inventoryId}")
 	
-	public ResponseEntity<ResponseStructure<InventoryResponse>> updateInventoryById(@RequestBody InventoryRequest inventoryRequest, @PathVariable int inventoryId)
+	public ResponseEntity<ResponseStructure<InventoryResponse>> updateInventory(@RequestBody @Valid InventoryRequest inventoryRequest,@PathVariable int inventoryId, @PathVariable int storageId)
 	
 	{
-		return inventoryService.updateInventoryById(inventoryRequest,inventoryId);
+		return inventoryService.updateInventory(inventoryRequest,inventoryId,storageId);
+	}
+	
+	@Operation(description="The endpoint is used to add the"
+			+ " data to the data base",
+			responses= {
+					@ApiResponse(responseCode = "201", description="Quantity Updated successfully",
+							content= {
+									@Content(schema = @Schema(oneOf=InventoryResponse.class))
+							}),
+					@ApiResponse(responseCode="400", description="Invalid Input",
+					content= {
+							@Content(schema  =@Schema(oneOf  =ErrorStructure.class))
+					})
+			})
+	
+	
+@PutMapping("/storages/{storageId}/inventories/{inventoryId}/batches")
+	
+	public ResponseEntity<ResponseStructure<BatchResponse>> updateQuantityUsingBatch(@PathVariable int storageId, @PathVariable int inventoryId, @RequestParam("quantity") int quantity)
+	
+	{
+		return inventoryService.updateQuantityUsingBatch(storageId,inventoryId,quantity);
 	}
 
 }
