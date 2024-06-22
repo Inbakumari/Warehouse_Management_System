@@ -27,7 +27,7 @@ public class Batch {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	
 	private int batchId;
-	private double quantity;
+	private int quantity;
 	
 	
 	@ManyToOne

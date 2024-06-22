@@ -17,7 +17,9 @@ import com.example.warehouse.system.entity.Storage;
 import com.example.warehouse.system.exception.AddressNotFoundByIdException;
 import com.example.warehouse.system.exception.ClientNotFoundByIdException;
 import com.example.warehouse.system.exception.InventoryNotFoundByIdException;
+import com.example.warehouse.system.exception.SpaceOrWeightNotAvailableException;
 import com.example.warehouse.system.exception.StorageNotFoundByIdException;
+import com.example.warehouse.system.mapper.BatchMapper;
 import com.example.warehouse.system.mapper.InventoryMapper;
 import com.example.warehouse.system.repository.BatchRepository;
 import com.example.warehouse.system.repository.ClientRepository;
@@ -25,10 +27,13 @@ import com.example.warehouse.system.repository.InventoryRepository;
 import com.example.warehouse.system.repository.StorageRespository;
 import com.example.warehouse.system.requestdto.InventoryRequest;
 import com.example.warehouse.system.responsedto.AddressResponse;
+import com.example.warehouse.system.responsedto.BatchResponse;
 import com.example.warehouse.system.responsedto.ClientResponse;
 import com.example.warehouse.system.responsedto.InventoryResponse;
 import com.example.warehouse.system.service.InventoryService;
 import com.example.warehouse.system.utility.ResponseStructure;
+
+import jakarta.validation.Valid;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -48,6 +53,10 @@ public class InventoryServiceImpl implements InventoryService {
 
 	@Autowired
 	private BatchRepository batchRepository;
+	
+	@Autowired
+	
+	private BatchMapper batchMapper;
 
 	@Override
 	public ResponseEntity<ResponseStructure<InventoryResponse>> createInventory(InventoryRequest inventoryRequest,
@@ -114,20 +123,91 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public ResponseEntity<ResponseStructure<InventoryResponse>> updateInventoryById(
-			InventoryRequest inventoryRequest, int inventoryId) {
-		return  inventoryRepository.findById(inventoryId).map(inventory -> {
+	public ResponseEntity<ResponseStructure<InventoryResponse>> updateInventory( @Valid InventoryRequest inventoryRequest,
+			int inventoryId,int storageId) 
+	{
 
-			inventory = inventoryRepository.save(inventoryMapper.mapToInventory(inventoryRequest, inventory));
+		return inventoryRepository.findById(inventoryId).map(inventory -> {
+			Storage storage=storageRepository.findById(storageId).orElseThrow(() -> new StorageNotFoundByIdException("Storage Not Found"));
+			List<Batch> batches=batchRepository.findByInventoryAndStorage(inventory, storage);
+			int totalQuantity=0;
+			for(Batch batch: batches)
+			{
+				totalQuantity=totalQuantity+batch.getQuantity();
+			}
 
+			double oldWeightInKg=inventory.getWeightInKG();
+			double oldLength=inventory.getLengthInMeters();
+			double oldBreadth=inventory.getBreadthInMeters();
+			double oldHeight=inventory.getHeightInMeters();
+
+			double originalWeight=oldWeightInKg*totalQuantity;
+			double originalArea=oldBreadth*oldHeight*oldLength;
+
+			inventoryMapper.mapToInventory(inventoryRequest, inventory);
+
+			double newWeight=inventory.getWeightInKG()*totalQuantity;
+			double newArea=inventory.getBreadthInMeters()*inventory.getHeightInMeters()*inventory.getLengthInMeters();
+
+			if(oldLength!=inventory.getLengthInMeters()|| oldBreadth!=inventory.getBreadthInMeters()||oldHeight!=inventory.getHeightInMeters() || oldWeightInKg != inventory.getWeightInKG())
+			{
+				if(storage.getAvailabeArea()>0 && storage.getMaxAdditionalWeight() >0)
+				{
+					storage.setMaxAdditionalWeight(storage.getMaxAdditionalWeight() + (originalWeight- newWeight));
+					storage.setAvailabeArea(storage.getAvailabeArea()+ (originalArea- newArea));
+				}
+				
+			}
+			
+			Batch batch=new Batch();
+
+			storageRepository.save(storage);
+			
+			batch.setInventory(inventory);
+			batch.setStorage(storage);
+			inventory=inventoryRepository.save(inventory);
+			batch=batchRepository.save(batch);
+			batches.add(batch);
 			return  ResponseEntity.status(HttpStatus.OK)
 					.body(new ResponseStructure<InventoryResponse>()
 							.setStatusCode(HttpStatus.OK.value())
 							.setMessage("Inventory Updated Successfully")
-							.setData(inventoryMapper.mapToInventoryResponse(inventory)));
-		}).orElseThrow(()->new InventoryNotFoundByIdException("Inventory  Not Found"));
+							.setData(inventoryMapper.mapToInventoryResponse(inventory,batches)));
+		}).orElseThrow(()->new InventoryNotFoundByIdException("Failed To Update The Inventory"));
+
+
 	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<BatchResponse>> updateQuantityUsingBatch(int storageId, int inventoryId, int quantity) {
+		return  inventoryRepository.findById(inventoryId).map(inventory -> {
+			Storage storage = storageRepository.findById(storageId).orElseThrow(() -> new StorageNotFoundByIdException("Storage Not Found"));
+			Batch batch = new Batch();
+			
+			if(batch.getQuantity()!=quantity)
+			{
+				batch.setQuantity(quantity);
+				inventory.setRestockedAt(LocalDate.now());
+			}
+			
+			storageRepository.save(storage);
+			batch.setInventory(inventory);
+			batch.setStorage(storage);
+			inventory=inventoryRepository.save(inventory);
+			batch=batchRepository.save(batch);
+			return  ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseStructure<BatchResponse>()
+							.setStatusCode(HttpStatus.OK.value())
+							.setMessage("Quantity Updated Successfully")
+							.setData(batchMapper.mapToBatchResponse(batch))); 
+		}).orElseThrow(() -> new InventoryNotFoundByIdException("Failed To Update Quantity"));
+	}
+
+
 }
+
+
+
 
 
 
