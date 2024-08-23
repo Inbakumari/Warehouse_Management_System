@@ -1,10 +1,7 @@
 package com.example.warehouse.system.responsedto;
 
 
-import java.util.List;
-
 import com.example.warehouse.system.enums.AdminType;
-import com.example.warehouse.system.enums.Privilege;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +20,7 @@ public class AdminResponse {
 	private String name;
 	private String email;
 	private AdminType adminType;
-	private List<Privilege> privileges;
+	
 	
 
 }
